@@ -9,18 +9,34 @@ Contains unit tests for ensuring data structure integrity.
 import unittest
 from os.path import isdir, isfile
 from os import listdir
+from os.path import exists
 
+
+def required(path):
+    if not exists(path):
+        raise Exception(f"Path '{path}' does not exist.")
+    return path
+
+def directory(path):
+    if not path[-1] == "/":
+        raise Exception(f"Directory '{path}' needs a forward slash at the end.")
+    return path
+
+def file(path):
+    if path[-1] == "/":
+        raise Exception(f"File '{path}' has a forward slash at the end (not a directory).")
+    return path
 
 ################# INPUT DATA PATHS #################
-HEAD_DATA_DIR = "/projects/dgs/persad_research/heat_research/data/"
+HEAD_DATA_DIR = required("/projects/dgs/persad_research/heat_research/data/")
 
-ALL_TREFHTMN_DATA = HEAD_DATA_DIR + "TREFHTMN/ALL/"
-XAER_TREFHTMN_DATA = HEAD_DATA_DIR + "TREFHTMN/XAER/"
-CONTROL_TREFHTMN_NETCDF = HEAD_DATA_DIR + "TREFHTMN/CONTROL/b.e11.B1850C5CN.f09_g16.005.cam.h1.TREFHTMN.19000101-19991231.nc"
+ALL_TREFHTMN_DATA = required(HEAD_DATA_DIR + "TREFHTMN/ALL/DOWNLOAD/")
+XAER_TREFHTMN_DATA = required(HEAD_DATA_DIR + "TREFHTMN/XAER/DOWNLOAD/")
+CONTROL_TREFHTMN_NETCDF = required(HEAD_DATA_DIR + "TREFHTMN/CONTROL/b.e11.B1850C5CN.f09_g16.005.cam.h1.TREFHTMN.17000101-17991231.nc")
 
-ALL_TREFHTMX_DATA = HEAD_DATA_DIR + "TREFHTMX/ALL/"
-XAER_TREFHTMX_DATA = HEAD_DATA_DIR + "TREFHTMX/XAER/"
-CONTROL_TREFHTMX_NETCDF = HEAD_DATA_DIR + "TREFHTMX/CONTROL/b.e11.B1850C5CN.f09_g16.005.cam.h1.TREFHTMX.19000101-19991231.nc"
+ALL_TREFHTMX_DATA = required(HEAD_DATA_DIR + "TREFHTMX/ALL/DOWNLOAD/")
+XAER_TREFHTMX_DATA = required(HEAD_DATA_DIR + "TREFHTMX/XAER/DOWNLOAD/")
+CONTROL_TREFHTMX_NETCDF = required(HEAD_DATA_DIR + "TREFHTMX/CONTROL/b.e11.B1850C5CN.f09_g16.005.cam.h1.TREFHTMX.17000101-17991231.nc")
 
 MERRA2_T2M_NETCDF = HEAD_DATA_DIR + "MERRA2/MERRA2_1980-2015.nc"
 POPULATION_TIF = HEAD_DATA_DIR + "POPULATION/ppp_2020_1km_Aggregated.tif"
@@ -32,20 +48,18 @@ XAER_AODVIS_DATA = HEAD_DATA_DIR + "AODVIS/XAER/"
 
 
 ################# OUTPUT DATA PATHS #################
-HEAD_OUTPUT_DIR = "/projects/dgs/persad_research/heat_research/output/"
+HEAD_OUTPUT_DIR = "/projects/dgs/persad_research/heat_research/data/OUTPUT/"
 
-ALL_THRESHOLDS = HEAD_OUTPUT_DIR + "thresholds/ALL/"
-XAER_THRESHOLDS = HEAD_OUTPUT_DIR + "thresholds/XAER/"
-CONTROL_TREFHTMN_THRESHOLD_NETCDF = HEAD_OUTPUT_DIR + "thresholds/CONTROL/control_trefhtmn_threshold.nc"
-CONTROL_TREFHTMX_THRESHOLD_NETCDF = HEAD_OUTPUT_DIR + "thresholds/CONTROL/control_trefhtmx_threshold.nc"
+ALL_THRESHOLDS = HEAD_OUTPUT_DIR + "TRESHOLDS/ALL/"
+XAER_THRESHOLDS = HEAD_OUTPUT_DIR + "TRESHOLDS/XAER/"
+CONTROL_TREFHTMN_THRESHOLD_NETCDF = HEAD_OUTPUT_DIR + "THRESHOLDS/control_trefhtmn_threshold.nc"
+CONTROL_TREFHTMX_THRESHOLD_NETCDF = HEAD_OUTPUT_DIR + "THRESHOLDS/control_trefhtmx_threshold.nc"
 
-ALL_TREFHTMN_HEAT_METRICS = HEAD_OUTPUT_DIR + "heat_metrics/TREFHTMN/ALL/"
-XAER_TREFHTMN_HEAT_METRICS = HEAD_OUTPUT_DIR + "heat_metrics/TREFHTMN/XAER/"
-CONTROL_TREFHTMN_HEAT_METRIC_NETCDF = HEAD_OUTPUT_DIR + "heat_metrics/TREFHTMN/CONTROL/control_trefhtmn.nc"
+ALL_TREFHTMN_HEAT_METRICS = HEAD_OUTPUT_DIR + "METRICS/TREFHTMN/ALL/"
+XAER_TREFHTMN_HEAT_METRICS = HEAD_OUTPUT_DIR + "METRICS/TREFHTMN/XAER/"
 
-ALL_TREFHTMX_HEAT_METRICS = HEAD_OUTPUT_DIR + "heat_metrics/TREFHTMX/ALL/"
-XAER_TREFHTMX_HEAT_METRICS = HEAD_OUTPUT_DIR + "heat_metrics/TREFHTMX/XAER/"
-CONTROL_TREFHTMX_HEAT_METRIC_NETCDF = HEAD_OUTPUT_DIR + "heat_metrics/TREFHTMX/CONTROL/control_trefhtmx.nc"
+ALL_TREFHTMX_HEAT_METRICS = HEAD_OUTPUT_DIR + "METRICS/TREFHTMX/ALL/"
+XAER_TREFHTMX_HEAT_METRICS = HEAD_OUTPUT_DIR + "METRICS/TREFHTMX/XAER/"
 
 
 class TestInputPaths(unittest.TestCase):
