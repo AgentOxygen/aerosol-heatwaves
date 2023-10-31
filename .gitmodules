@@ -1,0 +1,3 @@
+[submodule "heatwave_analysis_package"]
+	path = heatwave_analysis_package
+	url = https://github.com/AgentOxygen/heatwave_analysis_package.git
