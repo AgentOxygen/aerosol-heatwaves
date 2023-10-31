@@ -10,7 +10,7 @@ import numpy as np
 from os import listdir
 from os.path import isfile
 import sys
-sys.path.append('./heatwave_scripts/')
+sys.path.append('../heatwave_analysis_package/scripts')
 from heatwave_metrics import compute_metrics
 from heatwave_threshold import threshold_from_path
 
