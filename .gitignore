@@ -1,0 +1,8 @@
+TMP/
+.ipynb_checkpoints
+*.tar
+*.zip
+dask-scratch-space/
+__pycache__/
+*~
+*.virtual_documents/*
