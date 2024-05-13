@@ -5,4 +5,4 @@ TMP/
 dask-scratch-space/
 __pycache__/
 *~
-*.virtual_documents/*
+.virtual_documents/*
