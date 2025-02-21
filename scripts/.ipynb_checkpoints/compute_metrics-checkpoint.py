@@ -60,6 +60,16 @@ if __name__ == '__main__':
     xaer_hw_ds_ensemble.chunk(dict(member=1, year=-1, lat=96, lon=72)).to_zarr(f"{OUTPUT_DIR}CESM1_LE_xaer_TREFHTMN_HW_METRICS.zarr", consolidated=True)
     xghg_hw_ds_ensemble.chunk(dict(member=1, year=-1, lat=96, lon=72)).to_zarr(f"{OUTPUT_DIR}CESM1_LE_xghg_TREFHTMN_HW_METRICS.zarr", consolidated=True)
 
+    tmin_pi_ds = xarray.open_zarr(tmin_pi_path)["TREFHTMN"]
+    tmin_pi_ds = tmin_pi_ds.sel(time=slice(pi_time_start, pi_time_end))
+
+    tmin_threshold = xarray.open_zarr(f"{OUTPUT_DIR}CESM1_LE_TREFHTMN_THRESHOLD.zarr")
+
+    print("Computing and outputting preindustrial control metrics...", end=" ")
+    tmin_pi_hw = hdp.compute_heatwave_metrics(tmin_pi_ds.compute(), tmin_threshold.sel(percentile=[0.9, 0.95], method="nearest"))
+    tmin_pi_hw.to_zarr(f"{OUTPUT_DIR}CESM1_LE_pic_TREFHTMN_HW_METRICS.zarr", consolidated=True)
+    print("Done.")
+
     print("Computing metrics for MERRA2")
     INPUT_DIR = "/projects/dgs/persad_research/SIMULATION_DATA/ZARR/MERRA2/SIM_VARIABLES/"
     OUTPUT_DIR = "/projects/dgs/persad_research/SIMULATION_DATA/ZARR/MERRA2/HEAT_OUTPUTS/"
